@@ -1,0 +1,228 @@
+<html>
+	<!--
+	<script src="d3.min.js"></script>
+	-->
+	<script src="http://d3js.org/d3.v5.min.js"></script>
+
+	<header>
+		<meta charset="utf-8" />
+	</header>
+	
+	<body style="text-align:center">
+		<h3 style="text-align:center">PROGETTO INFOVIS</h3>
+
+		<h4 style="text-align:center">Ordinamento in base alla foglia: </h4>
+		<svg  align-items="center" width="1000" height="400" font-size="10" font-family ="sans-serif" text-anchor="middle"></svg>
+
+		<script type="text/javascript" charset="utf-8">
+			
+			var set;
+			d3.json("multivariate_data.json").then( function(data) {
+																console.log(data);
+															  	esegui(data);
+															  });
+
+
+			function esegui(data){
+
+				var centriX = [50,150,250,350,450,550,650,750,850,950];
+				var centroY = 150;
+
+				/*
+				valMax è il valore massimo tra tutti quelli delle variabili nel file json, al fine di determinare il range della scala per il disegno.
+				*/
+				values = getValues(data);
+				var valMax = d3.max(values);
+
+				var linearScale = d3.scaleLinear().domain([0,valMax]).range([0,24]);	
+				
+				/*
+				Ogni foglia viene modellata attraverso un'ellissi.Per rappresentare il valore della variabile associata alla foglia, tale valore viene considerato come valore del raggio (rx o ry) in modo da quantificarlo graficamente.
+				*/
+				var f1= [
+							{id:"v1",cx:centriX[0],cy:centroY,rx:data[0]["v1"],ry:15,class:"quad0"},
+							{id:"v1",cx:centriX[1],cy:centroY,rx:data[1]["v1"],ry:15,class:"quad1"},
+							{id:"v1",cx:centriX[2],cy:centroY,rx:data[2]["v1"],ry:15,class:"quad2"},
+							{id:"v1",cx:centriX[3],cy:centroY,rx:data[3]["v1"],ry:15,class:"quad3"},
+							{id:"v1",cx:centriX[4],cy:centroY,rx:data[4]["v1"],ry:15,class:"quad4"},
+							{id:"v1",cx:centriX[5],cy:centroY,rx:data[5]["v1"],ry:15,class:"quad5"},
+							{id:"v1",cx:centriX[6],cy:centroY,rx:data[6]["v1"],ry:15,class:"quad6"},
+							{id:"v1",cx:centriX[7],cy:centroY,rx:data[7]["v1"],ry:15,class:"quad7"},
+							{id:"v1",cx:centriX[8],cy:centroY,rx:data[8]["v1"],ry:15,class:"quad8"},
+							{id:"v1",cx:centriX[9],cy:centroY,rx:data[9]["v1"],ry:15,class:"quad9"}
+						];
+				var f2= [	
+							{id:"v2",cx:centriX[0],cy:centroY,rx:15,ry:data[0]["v2"],class:"quad0"},
+							{id:"v2",cx:centriX[1],cy:centroY,rx:15,ry:data[1]["v2"],class:"quad1"},
+							{id:"v2",cx:centriX[2],cy:centroY,rx:15,ry:data[2]["v2"],class:"quad2"},
+							{id:"v2",cx:centriX[3],cy:centroY,rx:15,ry:data[3]["v2"],class:"quad3"},
+							{id:"v2",cx:centriX[4],cy:centroY,rx:15,ry:data[4]["v2"],class:"quad4"},
+							{id:"v2",cx:centriX[5],cy:centroY,rx:15,ry:data[5]["v2"],class:"quad5"},
+							{id:"v2",cx:centriX[6],cy:centroY,rx:15,ry:data[6]["v2"],class:"quad6"},
+							{id:"v2",cx:centriX[7],cy:centroY,rx:15,ry:data[7]["v2"],class:"quad7"},
+							{id:"v2",cx:centriX[8],cy:centroY,rx:15,ry:data[8]["v2"],class:"quad8"},
+							{id:"v2",cx:centriX[9],cy:centroY,rx:15,ry:data[9]["v2"],class:"quad9"}
+							];
+				var f3= [
+							{id:"v3",cx:centriX[0],cy:centroY,rx:data[0]["v3"],ry:15,class:"quad0"},
+							{id:"v3",cx:centriX[1],cy:centroY,rx:data[1]["v3"],ry:15,class:"quad1"},
+							{id:"v3",cx:centriX[2],cy:centroY,rx:data[2]["v3"],ry:15,class:"quad2"},
+							{id:"v3",cx:centriX[3],cy:centroY,rx:data[3]["v3"],ry:15,class:"quad3"},
+							{id:"v3",cx:centriX[4],cy:centroY,rx:data[4]["v3"],ry:15,class:"quad4"},
+							{id:"v3",cx:centriX[5],cy:centroY,rx:data[5]["v3"],ry:15,class:"quad5"},
+							{id:"v3",cx:centriX[6],cy:centroY,rx:data[6]["v3"],ry:15,class:"quad6"},
+							{id:"v3",cx:centriX[7],cy:centroY,rx:data[7]["v3"],ry:15,class:"quad7"},
+							{id:"v3",cx:centriX[8],cy:centroY,rx:data[8]["v3"],ry:15,class:"quad8"},
+							{id:"v3",cx:centriX[9],cy:centroY,rx:data[9]["v3"],ry:15,class:"quad9"}
+						];
+				var f4= [
+							{id:"v4",cx:centriX[0],cy:centroY,rx:15,ry:data[0]["v4"],class:"quad0"},
+							{id:"v4",cx:centriX[1],cy:centroY,rx:15,ry:data[1]["v4"],class:"quad1"},
+							{id:"v4",cx:centriX[2],cy:centroY,rx:15,ry:data[2]["v4"],class:"quad2"},
+							{id:"v4",cx:centriX[3],cy:centroY,rx:15,ry:data[3]["v4"],class:"quad3"},
+							{id:"v4",cx:centriX[4],cy:centroY,rx:15,ry:data[4]["v4"],class:"quad4"},
+							{id:"v4",cx:centriX[5],cy:centroY,rx:15,ry:data[5]["v4"],class:"quad5"},
+							{id:"v4",cx:centriX[6],cy:centroY,rx:15,ry:data[6]["v4"],class:"quad6"},
+							{id:"v4",cx:centriX[7],cy:centroY,rx:15,ry:data[7]["v4"],class:"quad7"},
+							{id:"v4",cx:centriX[8],cy:centroY,rx:15,ry:data[8]["v4"],class:"quad8"},
+							{id:"v4",cx:centriX[9],cy:centroY,rx:15,ry:data[9]["v4"],class:"quad9"}
+						];
+
+				var svg = d3.select("svg");
+	       			
+	       		//disegno le foglie rosse
+				foglia1 = svg.selectAll("#v1").data(f1).enter().append("ellipse")
+				                .attr("id",function(d) {return d.id})
+				                .attr("cx",function(d) {return (d.cx-linearScale(d.rx))})
+				                .attr("cy",function(d) {return d.cy})
+				                .attr("rx",function(d) {return linearScale(d.rx)})
+				                .attr("ry",function(d) {return linearScale(d.ry)})
+				                .attr("class",function(d) {return d.class})
+				                .attr("id",function(d) {return d.id})
+				                .attr("fill","#CD5C5C")
+				                .attr("stroke","darkgreen")
+				                .attr("stroke-width",0.5);
+
+				//disegno le foglie verdi
+				foglia2 = svg.selectAll("#v2").data(f2).enter().append("ellipse")
+								.attr("id",function(d) {return d.id})
+								.attr("cx",function(d) {return d.cx})
+								.attr("cy",function(d) {return (d.cy-linearScale(d.ry))})
+								.attr("rx",function(d) {return linearScale(d.rx)})
+								.attr("ry",function(d) {return linearScale(d.ry)})
+								.attr("class",function(d) {return d.class})
+								.attr("id",function(d) {return d.id})
+								.attr("fill","#228B22")
+								.attr("stroke","darkgreen")
+								.attr("stroke-width",0.5);
+
+				//disegno le foglie arancioni
+				foglia3 = svg.selectAll("#v3").data(f3).enter().append("ellipse")
+				               .attr("id",function(d) {return d.id})
+				               .attr("cx",function(d) {return (d.cx+linearScale(d.rx))})
+				               .attr("cy",function(d) {return d.cy})
+				               .attr("rx",function(d) {return linearScale(d.rx)})
+				               .attr("ry",function(d) {return linearScale(d.ry)})
+				               .attr("class",function(d) {return d.class})
+				               .attr("id",function(d) {return d.id})
+				               .attr("fill","#FF8C00")
+				               .attr("stroke","darkgreen")
+				               .attr("stroke-width",0.5);
+
+				//disegno le foglie gialle
+				foglia4 = svg.selectAll("#v4").data(f4).enter().append("ellipse")
+				               .attr("id",function(d) {return d.id})
+				               .attr("cx",function(d) {return d.cx})
+				               .attr("cy",function(d) {return (d.cy+linearScale(d.ry))})
+				               .attr("rx",function(d) {return linearScale(d.rx)})
+				               .attr("ry",function(d) {return linearScale(d.ry)})
+				               .attr("class",function(d) {return d.class})
+				               .attr("id",function(d) {return d.id})
+				               .attr("fill","#FFD700")
+				               .attr("stroke","darkgreen")
+				               .attr("stroke-width",0.5);
+
+				//gestione del click su una foglia
+				foglia1.on("mousedown",function() {
+				 									d3.select("h4").text("Ordinamento in base alla foglia rossa");
+				    								ordinaFoglie(f1);
+				    								d3.select("h4").exit();
+				    							   });
+
+				foglia2.on("mousedown",function() {
+				    								d3.select("h4").text("Ordinamento in base alla foglia verde");
+				    								ordinaFoglie(f2)
+				    							  });
+
+				foglia3.on("mousedown",function() {
+				   									d3.select("h4").text("Ordinamento in base alla foglia arancione");
+				 									ordinaFoglie(f3)
+				   								  });
+
+				foglia4.on("mousedown", function() {
+				   									d3.select("h4").text("Ordinamento in base alla foglia gialla");
+				   									ordinaFoglie(f4)});
+				
+				//funzione che ordina i quadrifogli in base all'array di foglie passato come paramento: se f1,f2,f3 o f4.
+				function ordinaFoglie(foglia) {
+					var ordine = [];
+					if (foglia[0]["id"] == "v1" || foglia[0]["id"] == "v3") {
+						for ( var i = 0; i< foglia.length; i++) {
+							var v = foglia[i]["rx"];
+							var c = foglia[i]["class"];
+							ordine[i] = { "val":v, "classe":c};
+						}
+					}
+					else {
+						for ( var i = 0; i< foglia.length; i++) {
+							var v = foglia[i]["ry"];
+							var c = foglia[i]["class"];
+							ordine[i] = { "val":v, "classe":c};
+						}	
+					}
+					ordine.sort(function(a,b) {return a["val"]-b["val"]	});
+					
+					/* ordinamento manuale
+					for (var i = 0; i<ordine.length-1; i++) {
+						min = ordine[i]["val"];
+						pos = i;
+						for (var j = i+1; j<ordine.length; j++ ) {
+							if (ordine[j]["val"]<min) {
+								min = ordine[j]["val"];
+								pos = j;
+							}
+						}
+						if (pos!= i) {
+							var temp = ordine[i];
+							ordine[i]=ordine[pos];
+							ordine[pos]= temp;
+						}
+					}
+					*/
+					
+					for (var i = 0 ; i< ordine.length ; i++) {
+				   		quad = svg.selectAll("."+ordine[i]["classe"]).transition().duration(8000).attr("cx",function(d) {
+				   				switch(d.id) {
+				   					case "v1": return centriX[i]-linearScale(d.rx);
+				   								break;
+				   					case "v2": return centriX[i];
+				   								break;
+				   					case "v3": return centriX[i]+linearScale(d.rx); 
+				   								break;
+				  					case "v4": return centriX[i];
+				  				}
+				   		})
+					}
+				}
+
+				function getValues(data) {
+					values = [];
+					for (var i = 0 ; i<data.length; i++) {
+						values = values.concat([data[i]["v1"],data[i]["v2"],data[i]["v3"],data[i]["v4"]]);	
+					}
+					return values;
+				}
+			}
+		</script>
+	</body>
+</html>
